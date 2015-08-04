@@ -69,7 +69,14 @@ if sc.rtm_connect():
           else:
             sendMess("{thing} just got !props {reason} for a total of {num} points! :thumbsdown:".format(thing=first.encode("utf-8"), reason=message[1].encode("utf-8"), num=propsdb(first.replace("-", "").encode("utf-8"), "neg")))
         elif(first == "PropsBot.list"):
-            getList(message[1])
+          if(len(message) == 1):
+            getList(5)
+          else:
+            try:
+              val = int(message[1])
+              getList(message[1])
+            except ValueError:
+              sendMess("I need a number for list!")
     time.sleep(1) # timeout for checking new messages
 else:
   print "Connection Failed, invalid token?"
