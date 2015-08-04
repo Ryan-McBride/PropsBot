@@ -57,7 +57,11 @@ if sc.rtm_connect():
       if event["type"] == "message" and "text" in event: # check for message events
         message = event["text"].split(' ', 1) # split first word out of message
         first = message[0] # get first word
-        if(first[-2:] == "++"):
+        if(len(first) == 2):
+          print "no parameters"
+
+        elif(first[-2:] == "++"):
+          
           if(len(message) == 1):
             #TODO: Break props messages out into a separate function
             sendMess("{thing} now has {num} points! :thumbsup:".format(thing=first.encode("utf-8"), num=propsdb(first.replace("+", "").encode("utf-8"), "pos"))) 
@@ -68,7 +72,7 @@ if sc.rtm_connect():
             sendMess("{thing} now has {num} points! :thumbsdown:".format(thing=first.encode("utf-8"), num=propsdb(first.replace("-", "").encode("utf-8"), "neg")))
           else:
             sendMess("{thing} just got !props {reason} for a total of {num} points! :thumbsdown:".format(thing=first.encode("utf-8"), reason=message[1].encode("utf-8"), num=propsdb(first.replace("-", "").encode("utf-8"), "neg")))
-        elif(first == "PropsBot.list"):
+        elif(first == "props.list"):
           if(len(message) == 1):
             getList(5)
           else:
@@ -77,6 +81,14 @@ if sc.rtm_connect():
               getList(message[1])
             except ValueError:
               sendMess("I need a number for list!")
+        elif(first == "props.horn"):
+          sendMess("https://www.youtube.com/watch?v=oghDksyOzc8")
+        elif(first == "props.holy"):
+          sendMess("https://www.youtube.com/watch?v=XNJ1RHUnX9s")
+        elif(first == "props.lose"):
+          sendMess("https://www.youtube.com/watch?v=1ytCEuuW2_A")
+        elif(first == "props.help"):
+          sendMess("thingplusplus to give props\nthingminusminus to remove props\nprops.horn for airhorn\nprops.holy for quake sound\nprops.lose for price is right\nprops.help brings up this message")
     time.sleep(1) # timeout for checking new messages
 else:
   print "Connection Failed, invalid token?"
