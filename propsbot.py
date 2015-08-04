@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import time
 import sqlite3 as lite
 import sys
@@ -64,14 +66,14 @@ if sc.rtm_connect():
           
           if(len(message) == 1):
             #TODO: Break props messages out into a separate function
-            sendMess("{thing} now has {num} points! :thumbsup:".format(thing=first.encode("utf-8"), num=propsdb(first.replace("+", "").encode("utf-8"), "pos"))) 
+            sendMess("{thing} now has {num} points! :thumbsup:".format(thing=first, num=propsdb(first.replace("+", ""), "pos"))) 
           else:
-            sendMess("{thing} just got props {reason} for a total of {num} points! :thumbsup:".format(thing=first.encode("utf-8"), reason=message[1].encode("utf-8"), num=propsdb(first.replace("+", "").encode("utf-8"), "pos")))
+            sendMess("{thing} just got props {reason} for a total of {num} points! :thumbsup:".format(thing=first, reason=message[1], num=propsdb(first.replace("+", ""), "pos")))
         elif(first[-2:] == "--"):
           if(len(message) == 1):
-            sendMess("{thing} now has {num} points! :thumbsdown:".format(thing=first.encode("utf-8"), num=propsdb(first.replace("-", "").encode("utf-8"), "neg")))
+            sendMess("{thing} now has {num} points! :thumbsdown:".format(thing=first, num=propsdb(first.replace("-", ""), "neg")))
           else:
-            sendMess("{thing} just got !props {reason} for a total of {num} points! :thumbsdown:".format(thing=first.encode("utf-8"), reason=message[1].encode("utf-8"), num=propsdb(first.replace("-", "").encode("utf-8"), "neg")))
+            sendMess("{thing} just got !props {reason} for a total of {num} points! :thumbsdown:".format(thing=first, reason=message[1], num=propsdb(first.replace("-", ""), "neg")))
         elif(first == "props.list"):
           if(len(message) == 1):
             getList(5)
@@ -88,7 +90,7 @@ if sc.rtm_connect():
         elif(first == "props.lose"):
           sendMess("https://www.youtube.com/watch?v=1ytCEuuW2_A")
         elif(first == "props.help"):
-          sendMess("thingplusplus to give props\nthingminusminus to remove props\nprops.horn for airhorn\nprops.holy for quake sound\nprops.lose for price is right\nprops.help brings up this message")
+          sendMess("props.list to list high scores\nprops.horn for airhorn\nprops.holy for quake sound\nprops.lose for price is right\nprops.help brings up this message")
     time.sleep(1) # timeout for checking new messages
 else:
   print "Connection Failed, invalid token?"
