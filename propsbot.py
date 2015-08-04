@@ -3,7 +3,6 @@ import sqlite3 as lite
 import sys
 from slackclient import SlackClient
 
-
 sc = SlackClient(token)
 
 
@@ -32,12 +31,24 @@ def propsdb(thing, posneg):
   con.close()
   return val
 
+# sends message to slack
 def sendMess(mess):
   cleanName = mess.replace("+", "").replace("--", "")
   sc.api_call("chat.postMessage", channel=chan, text=cleanName, username="PropsBot", icon_url="https://salesforceyoda.files.wordpress.com/2014/10/fist-slide.jpg")
-# function to send message to chat
 
+# gets top props list
+def getList(num):
+  topx = "TOP {amt}:\n".format(amt=num)
+  con = lite.connect('props.db')
 
+  cursor = con.execute("SELECT Thing, Points FROM Props ORDER BY Points DESC LIMIT {n};".format(n=num))
+  rows = cursor.fetchall()
+  for row in rows:
+    topx = topx + str(row[1]) + " :\t" + row[0] + "\n"
+
+  sendMess(topx)
+
+# main function
 if sc.rtm_connect():
   print "PropsBot is ready"
   while True:
@@ -48,6 +59,7 @@ if sc.rtm_connect():
         first = message[0] # get first word
         if(first[-2:] == "++"):
           if(len(message) == 1):
+            #TODO: Break props messages out into a separate function
             sendMess("{thing} now has {num} points! :thumbsup:".format(thing=first.encode("utf-8"), num=propsdb(first.replace("+", "").encode("utf-8"), "pos"))) 
           else:
             sendMess("{thing} just got props {reason} for a total of {num} points! :thumbsup:".format(thing=first.encode("utf-8"), reason=message[1].encode("utf-8"), num=propsdb(first.replace("+", "").encode("utf-8"), "pos")))
@@ -56,6 +68,8 @@ if sc.rtm_connect():
             sendMess("{thing} now has {num} points! :thumbsdown:".format(thing=first.encode("utf-8"), num=propsdb(first.replace("-", "").encode("utf-8"), "neg")))
           else:
             sendMess("{thing} just got !props {reason} for a total of {num} points! :thumbsdown:".format(thing=first.encode("utf-8"), reason=message[1].encode("utf-8"), num=propsdb(first.replace("-", "").encode("utf-8"), "neg")))
+        elif(first == "PropsBot.list"):
+            getList(message[1])
     time.sleep(1) # timeout for checking new messages
 else:
   print "Connection Failed, invalid token?"
