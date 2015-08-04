@@ -3,12 +3,11 @@ import sqlite3 as lite
 import sys
 from slackclient import SlackClient
 
-token = ""
+token = "token"
 sc = SlackClient(token)
-chan = ""
+chan = "chan"
 
 # db initialization
-
 def propsdb(thing):
   con = lite.connect('props.db')
  
@@ -27,14 +26,13 @@ def propsdb(thing):
   con.close()
   return val
 
-print sc.api_call("channels.info", channel=chan)
-
 def sendMess(mess):
   cleanName = mess.replace("+", "")
-  sc.api_call("chat.postMessage", channel=chan, text=cleanName, username="PropsBot")
+  sc.api_call("chat.postMessage", channel=chan, text=cleanName, username="PropsBot", icon_url="https://salesforceyoda.files.wordpress.com/2014/10/fist-slide.jpg")
 # function to send message to chat
 
 if sc.rtm_connect():
+  print "PropsBot is ready"
   while True:
     events = sc.rtm_read()
     for event in events:
