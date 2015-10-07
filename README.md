@@ -23,3 +23,13 @@ Just plug PropsBot into your slack channel and props away!
 
 
 What are you waiting for? Hop in slack and start giving people points!
+
+## Setup ##
+
+1. Clone the repo
+2. Install Pip
+3. Install sqlite
+4. run `$sudo pip install slackclient`
+5. Set the token variable in propsbot.py to your Slack API Token
+6. Set the chan variable in propsbot.py to your Channel ID
+7. run `$python propsbot.py`

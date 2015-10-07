@@ -5,6 +5,9 @@ import sqlite3 as lite
 import sys
 from slackclient import SlackClient
 
+token = "" # insert Slack API Token here
+chan = "" # insert channel ID here
+
 sc = SlackClient(token)
 
 
