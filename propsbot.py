@@ -6,7 +6,6 @@ import sys
 from slackclient import SlackClient
 
 token = "" # insert Slack API Token here
-chan = "" # insert channel ID here
 
 sc = SlackClient(token)
 
@@ -60,6 +59,7 @@ if sc.rtm_connect():
     events = sc.rtm_read()
     for event in events:
       if event["type"] == "message" and "text" in event: # check for message events
+        chan = event["channel"]
         message = event["text"].split(' ', 1) # split first word out of message
         first = message[0] # get first word
         if(len(first) == 2):

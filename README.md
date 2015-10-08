@@ -31,5 +31,4 @@ What are you waiting for? Hop in slack and start giving people points!
 3. Install sqlite
 4. run `$sudo pip install slackclient`
 5. Set the token variable in propsbot.py to your Slack API Token
-6. Set the chan variable in propsbot.py to your Channel ID
-7. run `$python propsbot.py`
+6. run `$python propsbot.py`
